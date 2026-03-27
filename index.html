@@ -480,7 +480,13 @@
         </div>
     </div>
 
-<div id="step-ios" class="view-step flex-col w-full max-w-5xl mx-auto" style="padding: 1rem 1.5rem; background: rgba(255,255,255,0.01); border-radius: 40px; border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px);">
+<div id="step-ios" class="view-step flex-col w-full max-w-5xl mx-auto" 
+     style="padding: 1rem 1.5rem; 
+            background: rgba(255,255,255,0.01); 
+            border-radius: 40px; 
+            border: 1px solid #ffffff; /* Bordo sottile bianco */
+            backdrop-filter: blur(10px);">
+
     
     <button onclick="switchStep('step-device')" class="group text-dim hover:text-cyan-400 transition-all text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 mb-4" style="z-index: 20; position: relative;">
         <i class="fa-solid fa-arrow-left transition-transform group-hover:-translate-x-1"></i>Back
@@ -985,7 +991,7 @@ drawStars();
                 window.deferredPrompt = null;
             } else {
                 // Aggiunto questo fallback se il prompt nativo non è pronto o bloccato
-                alert("Il prompt di installazione nativo non è pronto. Per installare l'app, clicca sui 3 puntini in alto a destra e seleziona 'Aggiungi a schermata Home' o 'Installa app'.");
+                alert("To install the app, Click on the 3 dots top right and click 'Add to Home Screen' or 'Install App'.");
             }
         }
 
