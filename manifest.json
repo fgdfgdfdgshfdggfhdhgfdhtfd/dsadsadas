@@ -1,0 +1,37 @@
+{
+  "name": "Global Finds",
+  "short_name": "Global Finds",
+  "description": "The ultimate spreadsheet for Mulebuy, CNFans, Oopbuy & Litbuy. 3000+ curated links updated daily.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b1222",
+  "theme_color": "#0b1222",
+  "orientation": "portrait",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
