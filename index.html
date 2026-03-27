@@ -644,17 +644,12 @@ document.addEventListener('DOMContentLoaded', () => {
         premiumBtn.addEventListener('click', async function(e) {
             e.preventDefault(); 
             
-            // Se il browser ha attivato il prompt di installazione nativo (Android)
-            if (typeof triggerDirectInstall === 'function' && window.deferredPrompt) {
-                await triggerDirectInstall(this);
-            } else {
-                // Fallback: se il prompt non c'è (es. già installata, o sei da PC/iOS), fa la dissolvenza e ti porta al link
-                const targetUrl = this.getAttribute('href');
-                appView.classList.add('page-fade-out');
-                setTimeout(() => {
-                    window.location.href = targetUrl;
-                }, 400); 
-            }
+            // Fallback: fa la dissolvenza e ti porta al link
+            const targetUrl = this.getAttribute('href');
+            appView.classList.add('page-fade-out');
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 400); 
         });
     }
 });
@@ -988,7 +983,10 @@ drawStars();
                 
                 // Resetta deferredPrompt dopo l'uso
                 window.deferredPrompt = null;
-            } 
+            } else {
+                // Aggiunto questo fallback se il prompt nativo non è pronto o bloccato
+                alert("Il prompt di installazione nativo non è pronto. Per installare l'app, clicca sui 3 puntini in alto a destra e seleziona 'Aggiungi a schermata Home' o 'Installa app'.");
+            }
         }
 
         window.addEventListener('DOMContentLoaded', () => {
