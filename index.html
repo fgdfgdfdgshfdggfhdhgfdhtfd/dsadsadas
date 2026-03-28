@@ -422,8 +422,19 @@
 <body>
 
 <style>
-        #preloader { position: fixed; inset: 0; background: #0b1222; z-index: 9999; display: flex; justify-content: center; align-items: center; }
-    </style>
+    #preloader { position: fixed; inset: 0; background: #0b1222; z-index: 9999; display: flex; justify-content: center; align-items: center; }
+    
+    /* AGGIUNTO: Posiziona il canvas delle stelle fisso dietro tutto */
+    #starfield {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 1;
+        pointer-events: none;
+    }
+</style>
 
     <div id="app-view" class="app-only-view ...">
         </div>
@@ -484,7 +495,7 @@
      style="padding: 1rem 1.5rem; 
             background: rgba(255,255,255,0.01); 
             border-radius: 40px; 
-            border: 1px solid #ffffff; /* Bordo sottile bianco */
+            border: 1px solid #ffffff;
             backdrop-filter: blur(10px);">
 
     
@@ -698,8 +709,8 @@ html, body {
     }
 
     /* NASCONDI TUTTI GLI ELEMENTI DEL SITO PUBBLICO (Header, Main, Footer)
-       Nota: Assicurati che i tuoi tag pubblici abbiano la classe 'public-content' 
-       o sostituisci i selettori qui sotto con quelli che usi (es. header, footer) */
+        Nota: Assicurati che i tuoi tag pubblici abbiano la classe 'public-content' 
+        o sostituisci i selettori qui sotto con quelli che usi (es. header, footer) */
     header:not(#app-view header), 
     main:not(#app-view main), 
     footer:not(#app-view footer),
@@ -991,7 +1002,7 @@ drawStars();
                 window.deferredPrompt = null;
             } else {
                 // Aggiunto questo fallback se il prompt nativo non è pronto o bloccato
-                alert("To install the app, Click on the 3 dots top right and click 'Add to Home Screen' or 'Install App'.");
+                alert("To install the Android App, Click on the 3 dots top right and click 'Add to Home Screen' or 'Install App'.");
             }
         }
 
