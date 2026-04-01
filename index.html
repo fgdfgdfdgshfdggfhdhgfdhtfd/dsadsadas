@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Global Finds</title>
@@ -66,6 +68,72 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
     <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b1222;
+            color: white;
+            padding-top: 145px;
+        }
+        
+        .top-bar {
+            background-color: #0b1222;
+            border-bottom: 1px solid #1e293b;
+        }
+        
+        .telegram-ultra-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            font-size: 11px;
+            font-weight: 800;
+            color: white;
+            border-radius: 8px;
+            background: #0088cc;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3);
+        }
+        
+        header.site-header {
+            background-color: #0f172a;
+            border-bottom: 1px solid #1e293b;
+        }
+        /* Nasconde la scrollbar visiva ma permette lo scroll */
+        
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        /* Custom styles for workflow elements */
+        
+        .pill-badge {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #cbd5e1;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .code-box {
+            background-color: #050812;
+            border: 1px solid #1e293b;
+            border-radius: 16px;
+            padding: 20px;
+            font-family: monospace;
+            color: #94a3b8;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+    </style>
+        <style>
         /* --- CONFIGURAZIONE CORE & VARIABILI ---
            Utilizziamo variabili CSS per una gestione coerente del design system.
         */
@@ -424,16 +492,7 @@
 <style>
     #preloader { position: fixed; inset: 0; background: #0b1222; z-index: 9999; display: flex; justify-content: center; align-items: center; }
     
-    /* AGGIUNTO: Posiziona il canvas delle stelle fisso dietro tutto */
-    #starfield {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        z-index: 1;
-        pointer-events: none;
-    }
+
 </style>
 
     <div id="app-view" class="app-only-view ...">
@@ -451,45 +510,248 @@
         </div>
     </div>
 
-    <header class="main-header px-4">
+</head>
 
-        <h1 class="header-title float-anim text-5xl md:text-7xl lg:text-8xl font-black mb-8 leading-[1.05] tracking-tighter">
-            Download the<br>
-            <span class="colored-part">Global Finds</span> App
-        </h1>
-    </header>
+<body class="pb-20 pt-[140px] md:pt-[120px]">
 
-<main class="selector-container fade-in-up w-full px-8 md:px-12" style="animation-delay: 0.4s; margin-top: 1.5rem; max-width: 1000px; margin-left: auto; margin-right: auto;">
-    
-    <div id="step-device" class="view-step active flex-col items-center w-full">
-        
-        <div class="selector-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2.5rem; width: 100%;">
-            
-            <div class="device-card ios group" onclick="switchStep('step-ios')" onmouseenter="setEdgeLight(this)" onmouseleave="unsetEdgeLight(this)" 
-                 style="padding: 2.3rem 2rem; border-radius: 40px; display: flex; flex-direction: column; align-items: center; border: 1px solid #00ffff;">
-                <div class="edge-light"></div>
-                <i class="icon-3d icon-apple-3d fa-brands fa-apple" style="font-size: 4.0rem; margin-bottom: 1.1rem;"></i>
-                <h3 class="text-2xl md:text-3xl font-black mb-1.5 text-white tracking-tight">iOS / iPhone</h3>
-                <p class="device-subtitle" style="font-size: 0.75rem; margin-bottom: 1.6rem; letter-spacing: 0.15em; opacity: 0.6;">APPLE SYSTEM</p>
-                
-                <button class="install-btn btn-android" style="padding: 1.0rem; font-size: 0.95rem; width: 100%; border-radius: 18px;">
-                    INSTALL NOW <i class="fa-solid fa-chevron-right ml-2"></i>
-                </button>
-            </div>
 
-            <div class="device-card android group" onclick="triggerDirectInstall(this.querySelector('.install-btn'))" onmouseenter="setEdgeLight(this)" onmouseleave="unsetEdgeLight(this)" 
-                 style="padding: 2.3rem 2rem; border-radius: 40px; display: flex; flex-direction: column; align-items: center; border: 1px solid #00ffff;">
-                <div class="edge-light"></div>
-                <i class="icon-3d icon-android-3d fa-brands fa-android" style="font-size: 4.0rem; margin-bottom: 1.1rem;"></i>
-                <h3 class="text-2xl md:text-3xl font-black mb-1.5 text-white tracking-tight">Android</h3>
-                <p class="device-subtitle text-cyan-400" style="font-size: 0.75rem; margin-bottom: 1.6rem; letter-spacing: 0.15em;">GOOGLE SYSTEM</p>
-                
-                <button class="install-btn btn-android" style="padding: 1.0rem; font-size: 0.95rem; width: 100%; border-radius: 18px;">
-                    INSTALL NOW <i class="fa-solid fa-chevron-right ml-2"></i>
-                </button>
+    <div class="fixed top-0 left-0 w-full z-40 shadow-2xl flex flex-col">
+        <div class="top-bar py-1.5 px-4 md:px-8 bg-[#0b1222] w-full">
+            <div class="max-w-[1400px] mx-auto flex justify-center items-center">
+                <div class="flex items-center gap-4 text-center">
+                    <span class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Can't find what you want?<br>
+                ASK FOR FINDS HERE ➥</span>
+                    <a href="https://t.me/matteee21" class="telegram-ultra-btn">
+                        <i class="fa-brands fa-telegram"></i>
+                        <span>TELEGRAM</span>
+                    </a>
+                </div>
             </div>
         </div>
+
+        <header class="bg-[#0f172a] border-b border-gray-800 -mt-px relative z-40">
+            <div class="max-w-[1400px] mx-auto px-4 lg:px-8 pt-5 pb-3">
+                <div class="flex items-center justify-center w-full relative select-none pl-14 pr-14 md:pl-24 md:pr-24 lg:pl-0 lg:pr-0">
+                    <div class="flex items-center justify-center lg:gap-20 lg:-mr-[110px] shrink-1">
+<a href="https://globalfind.netlify.app/" class="text-[clamp(1.5rem,8vw,3rem)] md:text-[clamp(2.5rem,7vw,3.5rem)] lg:text-6xl font-[1000] italic tracking-tighter leading-none text-white transition-all whitespace-nowrap decoration-none hover:opacity-90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.3)]">
+    GLOBAL<span class="text-cyan-400 drop-shadow-[0_0_15px_rgba(6,182,212,0.4)]">FINDS</span>
+</a>
+
+                        <button id="menu-open-desktop" type="button" class="menu-trigger hidden lg:flex items-center justify-center w-24 h-14 rounded-xl bg-cyan-500 text-white shadow-[0_0_20px_rgba(6,182,212,0.5)] shrink-0 active:scale-95 transition-all cursor-pointer">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                    </div>
+                    <button id="menu-open-mobile" type="button" class="menu-trigger lg:hidden absolute right-0 flex items-center justify-center w-11 h-9 md:w-20 md:h-12 rounded-xl bg-cyan-500 text-white shadow-[0_0_15px_rgba(6,182,212,0.4)] shrink-0 active:scale-95 transition-all cursor-pointer">
+                    <i class="fa-solid fa-bars text-lg md:text-xl"></i>
+                </button>
+                </div>
+            </div>
+            <div class="w-full flex justify-center py-1.5 border-b border-gray-800 bg-[#0f172a]">
+                <a href="https://globalfind.netlify.app/" class="flex items-center gap-2 text-gray-500 hover:text-white decoration-gray-700 hover:decoration-white text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-300 group">
+                    <i class="fa-solid fa-arrow-left-long transform group-hover:-translate-x-1 transition-transform text-[8px]"></i>
+                    <span>Return to homepage</span>
+                </a>
+            </div>
+        </header>
     </div>
+
+<div id="full-menu" class="fixed inset-0 z-50 invisible opacity-0 transition-all duration-500">
+    <div class="absolute inset-0 bg-[#0b1222]">
+        <div class="noise-overlay absolute inset-0 opacity-5"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.07)_0%,transparent_70%)]"></div>
+    </div>
+
+    <div class="relative h-full flex flex-col items-center justify-center p-6 z-10">
+        <button id="menu-close" class="absolute top-6 right-6 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-cyan-500 transition-all cursor-pointer border-none shadow-lg">
+            <i class="fa-solid fa-xmark text-2xl"></i>
+        </button>
+
+        <div class="mb-12 text-center">
+            <h2 class="text-cyan-400 text-sm font-bold uppercase tracking-[0.3em] mb-2">Menù</h2>
+            <div class="h-1 w-12 bg-cyan-500 mx-auto rounded-full shadow-[0_0_10px_#22d3ee]"></div>
+        </div>
+
+        <nav id="menu-nav" class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-2xl mx-auto">
+            <a href="https://globalfind.netlify.app/" class="menu-link group flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-cyan-500/50 hover:bg-white/10 transition-all decoration-none">
+                <span class="star-icon w-8 text-xl font-black text-white/20 group-hover:text-cyan-400 transition-colors text-left">✭</span>
+                <span class="text-lg font-bold text-white uppercase tracking-tight">Home Page</span>
+                <span class="star-icon w-8 text-xl font-black text-white/20 group-hover:text-cyan-400 transition-colors text-right">✭</span>
+            </a>
+
+            <a href="https://globalfind.netlify.app/link-converter" class="menu-link group flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-cyan-500/50 hover:bg-white/10 transition-all decoration-none">
+                <span class="star-icon w-8 text-xl font-black text-white/20 group-hover:text-cyan-400 transition-colors text-left">✭</span>
+                <span class="text-lg font-bold text-white uppercase tracking-tight">Link Converter</span>
+                <span class="star-icon w-8 text-xl font-black text-white/20 group-hover:text-cyan-400 transition-colors text-right">✭</span>
+            </a>
+
+            <a href="https://globalfind.netlify.app/size-assistant" class="menu-link group flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-cyan-500/50 hover:bg-white/10 transition-all decoration-none">
+                <span class="star-icon w-8 text-xl font-black text-white/20 group-hover:text-cyan-400 transition-colors text-left">✭</span>
+                <span class="text-lg font-bold text-white uppercase tracking-tight">Size Assistant</span>
+                <span class="star-icon w-8 text-xl font-black text-white/20 group-hover:text-cyan-400 transition-colors text-right">✭</span>
+            </a>
+
+            <a href="https://globalfind.netlify.app/how-to-buy" class="menu-link group flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-cyan-500/50 hover:bg-white/10 transition-all decoration-none">
+                <span class="star-icon w-8 text-xl font-black text-white/20 group-hover:text-cyan-400 transition-colors text-left">✭</span>
+                <span class="text-lg font-bold text-white uppercase tracking-tight">How to Buy</span>
+                <span class="star-icon w-8 text-xl font-black text-white/20 group-hover:text-cyan-400 transition-colors text-right">✭</span>
+            </a>
+
+
+        </nav>
+    </div>
+</div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // 1. Ottieni il percorso pulito dell'URL attuale (es. "link-converter")
+    const currentPath = window.location.pathname.replace(/\/$/, "").split("/").pop() || "index";
+    const cleanCurrent = currentPath.replace(".html", "");
+
+    // 2. Seleziona i link
+    const menuLinks = document.querySelectorAll(".menu-link");
+
+    menuLinks.forEach(link => {
+        // 3. Ottieni il percorso pulito dell'href (es. "link-converter.html" -> "link-converter")
+        const href = link.getAttribute("href");
+        if (!href) return;
+        
+        const linkPath = href.replace(/\/$/, "").split("/").pop() || "index";
+        const cleanLink = linkPath.replace(".html", "");
+
+        // Reset dello stato (opzionale se già definiti come spenti nel CSS)
+        const stars = link.querySelectorAll(".star-icon");
+
+        // 4. Confronto "pulito"
+        if (cleanCurrent === cleanLink) {
+            // Rimuovi classi "spente"
+            link.classList.remove("bg-white/5", "border-white/10");
+            
+            // Aggiungi classi "illuminate"
+            link.classList.add(
+                "bg-white/20", 
+                "border-white/60", 
+                "shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+            );
+
+            // Illumina le stelline
+            stars.forEach(star => {
+                star.classList.remove("text-white/20");
+                star.classList.add("text-white");
+            });
+
+            // Disabilita click
+            link.style.pointerEvents = "none";
+        }
+    });
+});
+
+
+    const openPWA = () => {
+        // Controllo 1: Non mostrare se l'utente è già dentro la WebApp installata
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+        if(isStandalone) return;
+
+        // Controllo 2: Mostrare solo su Mobile o Tablet
+        const isMobileOrTablet = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        if(!isMobileOrTablet) return;
+
+        // Controllo 3: Se lo ha già chiuso in QUESTA sessione, non disturbarlo
+        if (sessionStorage.getItem(SESSION_KEY)) return;
+
+        // Apparizione con leggero ritardo (1 secondo) per un effetto più fluido
+        setTimeout(() => {
+            if (root) {
+                root.classList.remove('hidden'); 
+                root.classList.add('flex');
+            }
+        }, 0);
+    };
+</script>
+
+<script>
+    // Selezioniamo tutti i bottoni di apertura (desktop e mobile)
+    const menuTriggers = document.querySelectorAll('.menu-trigger');
+    const menuClose = document.getElementById('menu-close');
+    const fullMenu = document.getElementById('full-menu');
+
+    // Cicliamo su ogni bottone trovato per aggiungere l'evento click
+    menuTriggers.forEach(btn => {
+        btn.addEventListener('click', () => {
+            fullMenu.classList.remove('invisible', 'opacity-0');
+            fullMenu.classList.add('visible', 'opacity-100');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    // Chiusura (rimane uguale)
+    if (menuClose) {
+        menuClose.addEventListener('click', () => {
+            fullMenu.classList.add('invisible', 'opacity-0');
+            fullMenu.classList.remove('visible', 'opacity-100');
+            document.body.style.overflow = '';
+        });
+    }
+</script>
+
+
+<main class="selector-container fade-in-up w-full px-4 md:px-12 flex flex-col items-center" style="animation-delay: 0.4s; margin-top: 3rem; max-width: 1100px; margin-left: auto; margin-right: auto;">
+
+<h1 class="header-title text-center !text-[2.15rem] md:!text-[2.8rem] lg:!text-5xl font-black -mt-1 md:mt-12 lg:mt-16 mb-8 leading-[1.05] tracking-tight w-full">
+    Download the <span class="text-cyan-400 drop-shadow-[0_0_15px_rgba(6,182,212,0.4)]">App</span>
+</h1>
+
+<div id="step-device" class="view-step active flex-col items-center w-full">
+    <div class="selector-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2.5rem; width: 90%;">
+        
+        <div class="device-card ios group" onclick="switchStep('step-ios')" onmouseenter="setEdgeLight(this)" onmouseleave="unsetEdgeLight(this)" 
+             style="padding: 2.3rem 2rem; border-radius: 40px; display: flex; flex-direction: column; align-items: center; 
+                    background: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    backdrop-filter: blur(12px);
+                    box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6);">
+            <div class="edge-light"></div>
+            <i class="icon-3d icon-apple-3d fa-brands fa-apple" style="font-size: 4.0rem; margin-bottom: 1.1rem; color: white; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));"></i>
+            
+            <h3 class="text-2xl md:text-3xl font-black mb-1.5 text-white tracking-tight" 
+                style="text-shadow: 0 4px 8px rgba(0,0,0,0.8), 0 2px 2px rgba(0,0,0,0.5);">
+                iOS / iPhone
+            </h3>
+            <p class="device-subtitle" 
+               style="font-size: 0.75rem; margin-bottom: 1.6rem; letter-spacing: 0.15em; opacity: 0.7; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.7);">
+               APPLE SYSTEM
+            </p>
+            
+            <button class="install-btn" style="background: #ffffff; color: #000; font-weight: 900; padding: 1.0rem; font-size: 0.95rem; width: 100%; border-radius: 18px; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">
+                INSTALL NOW <i class="fa-solid fa-chevron-right ml-2"></i>
+            </button>
+        </div>
+
+        <div class="device-card android group" onclick="triggerDirectInstall(this.querySelector('.install-btn'))" onmouseenter="setEdgeLight(this)" onmouseleave="unsetEdgeLight(this)" 
+             style="padding: 2.3rem 2rem; border-radius: 40px; display: flex; flex-direction: column; align-items: center; 
+                    background: linear-gradient(145deg, rgba(34, 211, 238, 0.1) 0%, rgba(34, 211, 238, 0.02) 100%);
+                    border: 1px solid rgba(34, 211, 238, 0.3);
+                    backdrop-filter: blur(12px);
+                    box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6);">
+            <div class="edge-light"></div>
+            <i class="icon-3d icon-android-3d fa-brands fa-android" style="font-size: 4.0rem; margin-bottom: 1.1rem; color: #a5f3fc; filter: drop-shadow(0 0 15px rgba(34,211,238,0.3));"></i>
+            
+            <h3 class="text-2xl md:text-3xl font-black mb-1.5 text-white tracking-tight" 
+                style="text-shadow: 0 4px 10px rgba(0,0,0,0.9), 0 2px 2px rgba(0,0,0,0.6);">
+                Android
+            </h3>
+            <p class="device-subtitle" 
+               style="font-size: 0.75rem; margin-bottom: 1.6rem; letter-spacing: 0.15em; color: #a5f3fc; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
+               GOOGLE SYSTEM
+            </p>
+            
+            <button class="install-btn" style="background: #a5f3fc; color: #000; font-weight: 900; padding: 1.0rem; font-size: 0.95rem; width: 100%; border-radius: 18px; box-shadow: 0 10px 25px rgba(34,211,238,0.2);">
+                INSTALL NOW <i class="fa-solid fa-chevron-right ml-2"></i>
+            </button>
+        </div>
+
+    </div>
+</div>
 
 <div id="step-ios" class="view-step flex-col w-full max-w-5xl mx-auto" 
      style="padding: 1rem 1.5rem; 
@@ -571,7 +833,6 @@
 </div>
 
 </main>
-
 <div id="app-view" class="app-only-view fixed inset-0 z-[200] flex flex-col items-center justify-start p-4 md:p-8 overflow-y-auto bg-transparent backdrop-blur-md">
     
     <div class="absolute inset-0 bg-gradient-to-b from-[#0b1222]/60 via-transparent to-[#0b1222]/95 pointer-events-none"></div>
@@ -1002,7 +1263,7 @@ drawStars();
                 window.deferredPrompt = null;
             } else {
                 // Aggiunto questo fallback se il prompt nativo non è pronto o bloccato
-                alert("To install the Android App, Click on the 3 dots top right and click 'Add to Home Screen' or 'Install App'.");
+                alert("To install the Android App, Click on the 3 dots, and click 'Add to Home Screen' or 'Install App'.");
             }
         }
 
@@ -1053,5 +1314,40 @@ drawStars();
         });
     }
 </script>
+
+<footer class="w-full bg-[#0b1222] border-t border-gray-800/40 mt-auto relative z-10">
+        <div class="max-w-[1400px] mx-auto px-4 h-20 flex flex-col justify-center items-center text-center">
+            <p class="text-[9px] md:text-[10px] font-bold text-gray-400 uppercase tracking-[0.15em] opacity-80">
+                © 2026 GLOBAL FINDS HUB • ALL RIGHTS RESERVED
+            </p>
+            <p class="text-[7px] md:text-[8px] font-bold text-gray-500 uppercase tracking-[0.2em] opacity-60 mt-1">
+                EDUCATIONAL PURPOSES
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Script Menù attivo illuminato
+        document.addEventListener("DOMContentLoaded", function() {
+            const currentPath = window.location.pathname.split("/").pop() || "index.html";
+            const menuLinks = document.querySelectorAll(".menu-link");
+
+            menuLinks.forEach(link => {
+                const linkPath = link.getAttribute("href");
+                if (linkPath === currentPath || (currentPath === '' && linkPath === 'index.html')) {
+                    link.classList.remove("bg-white/5", "border-white/10");
+                    link.classList.add("bg-white/20", "border-white/60", "shadow-[0_0_20px_rgba(255,255,255,0.2)]");
+                    const stars = link.querySelectorAll(".star-icon");
+                    stars.forEach(star => {
+                        star.classList.remove("text-white/20");
+                        star.classList.add("text-white");
+                    });
+                }
+            });
+        });
+
+    </script>
+
 </body>
+
 </html>
