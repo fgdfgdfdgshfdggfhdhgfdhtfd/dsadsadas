@@ -771,19 +771,21 @@ document.addEventListener("DOMContentLoaded", function() {
     </div>
 
 <div class="relative w-full flex justify-center mb-5" style="pointer-events: none; user-select: none;">
-        <div class="relative rounded-[1.5rem] md:rounded-[2rem] overflow-hidden border border-white/10 bg-black/40 shadow-2xl">
-            <video 
-                class="block w-full h-auto max-h-[50vh] object-contain" 
-                autoplay 
-                loop 
-                muted 
-                playsinline 
-                disableremoteplayback 
-                pip="false">
-                <source src="videoapp.mp4" type="video/mp4">
-            </video>
-            <div class="absolute inset-0 z-20"></div>
-        </div>
+<div class="relative rounded-[1.5rem] md:rounded-[2rem] overflow-hidden border border-white/10 bg-black/40 shadow-2xl">
+    <video 
+        class="block w-full h-auto max-h-[50vh] object-contain" 
+        autoplay 
+        loop 
+        muted 
+        playsinline 
+        webkit-playsinline
+        preload="auto"
+        disableremoteplayback>
+        <source src="https://raw.githubusercontent.com/fgdfgdfdgshfdggfhdhgfdhtfd/dsadsadas/main/videoapp.mp4" type="video/mp4">
+        Il tuo browser non supporta il tag video.
+    </video>
+    <div class="absolute inset-0 z-20"></div>
+</div>
     </div>
 
 
