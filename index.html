@@ -570,11 +570,7 @@
 <!-- ===================== INTRO SPLASH SCREEN ===================== -->
 <div id="intro-splash">
     <div class="intro-bg-glow"></div>
-    <div class="intro-ring-wrap" aria-hidden="true">
-        <div class="intro-ring"></div>
-        <div class="intro-ring"></div>
-        <div class="intro-ring"></div>
-    </div>
+
     <div class="intro-stars-layer" id="intro-stars-layer" aria-hidden="true"></div>
     <div class="intro-logo-center" id="intro-logo-center">
         <span class="intro-logo-text">
@@ -1243,7 +1239,7 @@ html, body {
                 logoEl.style.opacity   = '0';
 
                 setTimeout(finishSplash, 820);
-            }, 1600);
+            }, 1200);
 
             function finishSplash() {
                 if (!splash) return;
