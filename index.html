@@ -441,7 +441,7 @@
             inset: 0;
             z-index: 999998;
             background: #0b1222;
-            display: flex;
+            display: none; /* nascosto di default, visibile solo da webapp via JS */
             align-items: center;
             justify-content: center;
             pointer-events: all;
@@ -1182,8 +1182,19 @@ html, body {
 </style>
 
     <script>
-        // ===================== INTRO SPLASH — generate star dots & run fly animation =====================
+        // ===================== INTRO SPLASH — solo in modalità webapp (standalone) =====================
         (function runIntroSplash() {
+            // Esegui intro solo se aperto come webapp installata, non da browser normale
+            var isStandaloneIntro = window.matchMedia('(display-mode: standalone)').matches
+                                 || window.matchMedia('(display-mode: fullscreen)').matches
+                                 || window.matchMedia('(display-mode: minimal-ui)').matches
+                                 || window.navigator.standalone === true;
+            if (!isStandaloneIntro) return; // browser normale → non mostrare intro
+
+            // Mostra l'elemento splash (di default è display:none)
+            var splashEl = document.getElementById('intro-splash');
+            if (splashEl) splashEl.style.display = 'flex';
+
             var layer = document.getElementById('intro-stars-layer');
             if (layer) {
                 var count = 55;
@@ -1209,20 +1220,21 @@ html, body {
             var logoEl  = document.getElementById('intro-logo-center');
 
             setTimeout(function() {
-                var headerLogo = document.querySelector('a[href="https://globalfind.netlify.app/"]');
+                // Vola verso l'h2 "GLOBAL FINDS" nella webapp (poco sopra il centro)
+                var targetEl = document.querySelector('#app-view h2');
 
-                if (!headerLogo) {
+                if (!targetEl) {
                     finishSplash(); return;
                 }
 
-                var rect       = headerLogo.getBoundingClientRect();
+                var rect       = targetEl.getBoundingClientRect();
                 var targetLeft = rect.left + rect.width  / 2;
                 var targetTop  = rect.top  + rect.height / 2;
 
-                var splashTextEl    = logoEl.querySelector('.intro-logo-text');
-                var splashFontSize  = parseFloat(getComputedStyle(splashTextEl).fontSize) || 72;
-                var headerFontSize  = parseFloat(getComputedStyle(headerLogo).fontSize)  || 38;
-                var scaleFactor     = headerFontSize / splashFontSize;
+                var splashTextEl   = logoEl.querySelector('.intro-logo-text');
+                var splashFontSize = parseFloat(getComputedStyle(splashTextEl).fontSize) || 72;
+                var targetFontSize = parseFloat(getComputedStyle(targetEl).fontSize)     || 60;
+                var scaleFactor    = targetFontSize / splashFontSize;
 
                 logoEl.classList.add('fly-to-header');
                 logoEl.style.left      = targetLeft + 'px';
