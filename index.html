@@ -563,27 +563,7 @@
         .view-step { display: none; width: 100%; }
         .view-step.active { display: flex; animation: slideUp 0.6s ease-out forwards; }
 
-        /* =====================================================
-           IN-APP BROWSER — fullscreen, no bars
-        ===================================================== */
-        #inapp-browser {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 999999;
-            flex-direction: column;
-            background: #0b1222;
-        }
-        #inapp-browser.open {
-            display: flex;
-        }
-        #inapp-frame {
-            flex: 1;
-            border: none;
-            width: 100%;
-            height: 100%;
-            background: #0b1222;
-        }
+        /* in-app browser rimosso — si usa window.open */
     </style>
 </head>
 <body>
@@ -599,10 +579,7 @@
     </div>
 </div>
 
-<!-- ===================== IN-APP BROWSER (fullscreen, no bars) ===================== -->
-<div id="inapp-browser">
-    <iframe id="inapp-frame" src="" allow="fullscreen; autoplay; clipboard-write; encrypted-media; storage-access"></iframe>
-</div>
+<!-- in-app browser rimosso -->
 
     <div id="app-view" class="app-only-view ...">
     </div>
@@ -1244,34 +1221,21 @@ html, body {
 
         // ===================== IN-APP BROWSER FUNCTIONS =====================
         function openInAppBrowser(url) {
-            var browser  = document.getElementById('inapp-browser');
-            var frame    = document.getElementById('inapp-frame');
-
-            frame.src = url;
-            browser.classList.add('open');
-            document.body.style.overflow = 'hidden';
+            // Apre come popup fullscreen — su mobile nasconde quasi tutto il browser UI
+            // e salva correttamente sessioni/cookie
+            var w = screen.width;
+            var h = screen.height;
+            var features = 'width=' + w + ',height=' + h + ',top=0,left=0,toolbar=no,menubar=no,scrollbars=yes,resizable=yes,location=no,status=no,titlebar=no';
+            var win = window.open(url, '_blank', features);
+            // fallback se il browser blocca il popup
+            if (!win || win.closed || typeof win.closed === 'undefined') {
+                window.open(url, '_blank');
+            }
         }
 
         function closeInAppBrowser() {
-            var browser = document.getElementById('inapp-browser');
-            var frame   = document.getElementById('inapp-frame');
-            browser.classList.remove('open');
-            document.body.style.overflow = '';
-            setTimeout(function(){ frame.src = ''; }, 300);
+            // non più necessario
         }
-
-        // Chiudi in-app browser con swipe down
-        (function() {
-            var browser = document.getElementById('inapp-browser');
-            var startY = 0;
-            browser.addEventListener('touchstart', function(e) {
-                startY = e.touches[0].clientY;
-            }, { passive: true });
-            browser.addEventListener('touchend', function(e) {
-                var diff = e.changedTouches[0].clientY - startY;
-                if (diff > 80) closeInAppBrowser();
-            }, { passive: true });
-        })();
 
         // ===================== STARFIELD SYSTEM =====================
         const canvas = document.getElementById('starfield');
