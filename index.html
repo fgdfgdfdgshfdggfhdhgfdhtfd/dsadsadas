@@ -564,7 +564,7 @@
         .view-step.active { display: flex; animation: slideUp 0.6s ease-out forwards; }
 
         /* =====================================================
-           IN-APP BROWSER
+           IN-APP BROWSER — fullscreen, no bars
         ===================================================== */
         #inapp-browser {
             display: none;
@@ -577,103 +577,12 @@
         #inapp-browser.open {
             display: flex;
         }
-        .inapp-topbar {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 14px;
-            background: #0f172a;
-            border-bottom: 1px solid #1e293b;
-            min-height: 54px;
-            flex-shrink: 0;
-        }
-        .inapp-close-btn {
-            background: rgba(255,255,255,0.08);
-            border: none;
-            color: white;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            font-size: 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            transition: background 0.2s;
-        }
-        .inapp-close-btn:hover { background: rgba(255,255,255,0.15); }
-        .inapp-url-bar {
-            flex: 1;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid #1e293b;
-            border-radius: 20px;
-            padding: 7px 14px;
-            font-size: 12px;
-            color: #64748b;
-            font-family: monospace;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .inapp-live-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #22d3ee;
-            box-shadow: 0 0 8px #22d3ee;
-            flex-shrink: 0;
-        }
         #inapp-frame {
             flex: 1;
             border: none;
             width: 100%;
+            height: 100%;
             background: #0b1222;
-        }
-        .inapp-bottombar {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 8px 16px;
-            background: #0f172a;
-            border-top: 1px solid #1e293b;
-            min-height: 54px;
-            flex-shrink: 0;
-        }
-        .inapp-nav-btn {
-            background: none;
-            border: none;
-            color: #64748b;
-            font-size: 20px;
-            cursor: pointer;
-            padding: 8px 14px;
-            border-radius: 10px;
-            transition: color 0.2s, background 0.2s;
-        }
-        .inapp-nav-btn:hover { color: white; background: rgba(255,255,255,0.07); }
-        .inapp-done-btn {
-            background: rgba(34,211,238,0.1);
-            border: 1px solid rgba(34,211,238,0.3);
-            color: #22d3ee;
-            border-radius: 12px;
-            padding: 7px 20px;
-            font-size: 12px;
-            font-weight: 800;
-            cursor: pointer;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            letter-spacing: 0.05em;
-            transition: background 0.2s, box-shadow 0.2s;
-        }
-        .inapp-done-btn:hover {
-            background: rgba(34,211,238,0.2);
-            box-shadow: 0 0 14px rgba(34,211,238,0.3);
-        }
-        .inapp-loading-bar {
-            height: 2px;
-            background: linear-gradient(90deg, #22d3ee, #3b82f6);
-            width: 0%;
-            transition: width 0.3s ease;
-            flex-shrink: 0;
         }
     </style>
 </head>
@@ -690,21 +599,9 @@
     </div>
 </div>
 
-<!-- ===================== IN-APP BROWSER ===================== -->
+<!-- ===================== IN-APP BROWSER (fullscreen, no bars) ===================== -->
 <div id="inapp-browser">
-    <div class="inapp-topbar">
-        <button class="inapp-close-btn" onclick="closeInAppBrowser()" title="Close">✕</button>
-        <div class="inapp-url-bar" id="inapp-url-bar">globalfind.netlify.app</div>
-        <div class="inapp-live-dot"></div>
-    </div>
-    <div class="inapp-loading-bar" id="inapp-loading-bar"></div>
     <iframe id="inapp-frame" src="" allow="fullscreen" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation-by-user-activation"></iframe>
-    <div class="inapp-bottombar">
-        <button class="inapp-nav-btn" onclick="inappGoBack()" title="Back">&#8592;</button>
-        <button class="inapp-nav-btn" onclick="inappGoForward()" title="Forward">&#8594;</button>
-        <button class="inapp-nav-btn" onclick="inappReload()" title="Reload">&#8635;</button>
-        <button class="inapp-done-btn" onclick="closeInAppBrowser()">CLOSE</button>
-    </div>
 </div>
 
     <div id="app-view" class="app-only-view ...">
@@ -1349,22 +1246,8 @@ html, body {
         function openInAppBrowser(url) {
             var browser  = document.getElementById('inapp-browser');
             var frame    = document.getElementById('inapp-frame');
-            var urlBar   = document.getElementById('inapp-url-bar');
-            var loadBar  = document.getElementById('inapp-loading-bar');
-
-            // loading bar animation
-            loadBar.style.width = '0%';
-            setTimeout(function(){ loadBar.style.width = '70%'; }, 50);
-
-            frame.onload = function() {
-                loadBar.style.width = '100%';
-                setTimeout(function(){ loadBar.style.width = '0%'; }, 400);
-            };
 
             frame.src = url;
-            try { urlBar.textContent = new URL(url).hostname + new URL(url).pathname.replace(/\/$/, '') || ''; }
-            catch(e) { urlBar.textContent = url; }
-
             browser.classList.add('open');
             document.body.style.overflow = 'hidden';
         }
@@ -1375,27 +1258,6 @@ html, body {
             browser.classList.remove('open');
             document.body.style.overflow = '';
             setTimeout(function(){ frame.src = ''; }, 300);
-        }
-
-        function inappGoBack() {
-            try { document.getElementById('inapp-frame').contentWindow.history.back(); } catch(e) {}
-        }
-
-        function inappGoForward() {
-            try { document.getElementById('inapp-frame').contentWindow.history.forward(); } catch(e) {}
-        }
-
-        function inappReload() {
-            var frame   = document.getElementById('inapp-frame');
-            var loadBar = document.getElementById('inapp-loading-bar');
-            loadBar.style.width = '0%';
-            setTimeout(function(){ loadBar.style.width = '60%'; }, 50);
-            frame.onload = function() {
-                loadBar.style.width = '100%';
-                setTimeout(function(){ loadBar.style.width = '0%'; }, 400);
-            };
-            try { frame.contentWindow.location.reload(); }
-            catch(e) { frame.src = frame.src; }
         }
 
         // Chiudi in-app browser con swipe down
