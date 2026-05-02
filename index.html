@@ -434,14 +434,14 @@
         }
 
         /* =====================================================
-           INTRO SPLASH SCREEN (dal secondo codice)
+           INTRO SPLASH SCREEN
         ===================================================== */
         #intro-splash {
             position: fixed;
             inset: 0;
             z-index: 999998;
             background: #0b1222;
-            display: none; /* nascosto di default, visibile solo da webapp via JS */
+            display: none;
             align-items: center;
             justify-content: center;
             pointer-events: all;
@@ -563,6 +563,118 @@
         .view-step { display: none; width: 100%; }
         .view-step.active { display: flex; animation: slideUp 0.6s ease-out forwards; }
 
+        /* =====================================================
+           IN-APP BROWSER
+        ===================================================== */
+        #inapp-browser {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 999999;
+            flex-direction: column;
+            background: #0b1222;
+        }
+        #inapp-browser.open {
+            display: flex;
+        }
+        .inapp-topbar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            background: #0f172a;
+            border-bottom: 1px solid #1e293b;
+            min-height: 54px;
+            flex-shrink: 0;
+        }
+        .inapp-close-btn {
+            background: rgba(255,255,255,0.08);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 0.2s;
+        }
+        .inapp-close-btn:hover { background: rgba(255,255,255,0.15); }
+        .inapp-url-bar {
+            flex: 1;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid #1e293b;
+            border-radius: 20px;
+            padding: 7px 14px;
+            font-size: 12px;
+            color: #64748b;
+            font-family: monospace;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .inapp-live-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22d3ee;
+            box-shadow: 0 0 8px #22d3ee;
+            flex-shrink: 0;
+        }
+        #inapp-frame {
+            flex: 1;
+            border: none;
+            width: 100%;
+            background: #0b1222;
+        }
+        .inapp-bottombar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 8px 16px;
+            background: #0f172a;
+            border-top: 1px solid #1e293b;
+            min-height: 54px;
+            flex-shrink: 0;
+        }
+        .inapp-nav-btn {
+            background: none;
+            border: none;
+            color: #64748b;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 8px 14px;
+            border-radius: 10px;
+            transition: color 0.2s, background 0.2s;
+        }
+        .inapp-nav-btn:hover { color: white; background: rgba(255,255,255,0.07); }
+        .inapp-done-btn {
+            background: rgba(34,211,238,0.1);
+            border: 1px solid rgba(34,211,238,0.3);
+            color: #22d3ee;
+            border-radius: 12px;
+            padding: 7px 20px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: 0.05em;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        .inapp-done-btn:hover {
+            background: rgba(34,211,238,0.2);
+            box-shadow: 0 0 14px rgba(34,211,238,0.3);
+        }
+        .inapp-loading-bar {
+            height: 2px;
+            background: linear-gradient(90deg, #22d3ee, #3b82f6);
+            width: 0%;
+            transition: width 0.3s ease;
+            flex-shrink: 0;
+        }
     </style>
 </head>
 <body>
@@ -570,12 +682,28 @@
 <!-- ===================== INTRO SPLASH SCREEN ===================== -->
 <div id="intro-splash">
     <div class="intro-bg-glow"></div>
-
     <div class="intro-stars-layer" id="intro-stars-layer" aria-hidden="true"></div>
     <div class="intro-logo-center" id="intro-logo-center">
         <span class="intro-logo-text">
             <span class="intro-logo-global">GLOBAL</span><span class="intro-logo-finds">FINDS</span>
         </span>
+    </div>
+</div>
+
+<!-- ===================== IN-APP BROWSER ===================== -->
+<div id="inapp-browser">
+    <div class="inapp-topbar">
+        <button class="inapp-close-btn" onclick="closeInAppBrowser()" title="Close">✕</button>
+        <div class="inapp-url-bar" id="inapp-url-bar">globalfind.netlify.app</div>
+        <div class="inapp-live-dot"></div>
+    </div>
+    <div class="inapp-loading-bar" id="inapp-loading-bar"></div>
+    <iframe id="inapp-frame" src="" allow="fullscreen" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation-by-user-activation"></iframe>
+    <div class="inapp-bottombar">
+        <button class="inapp-nav-btn" onclick="inappGoBack()" title="Back">&#8592;</button>
+        <button class="inapp-nav-btn" onclick="inappGoForward()" title="Forward">&#8594;</button>
+        <button class="inapp-nav-btn" onclick="inappReload()" title="Reload">&#8635;</button>
+        <button class="inapp-done-btn" onclick="closeInAppBrowser()">CLOSE</button>
     </div>
 </div>
 
@@ -586,10 +714,7 @@
     <div class="noise-overlay"></div>
     <div class="grid-bg"></div>
 
-</head>
-
 <body class="pb-20 pt-[140px] md:pt-[120px]">
-
 
     <div class="fixed top-0 left-0 w-full z-40 shadow-2xl flex flex-col">
         <div class="top-bar py-1.5 px-4 md:px-8 bg-[#0b1222] w-full">
@@ -609,21 +734,21 @@
             <div class="max-w-[1400px] mx-auto px-4 lg:px-8 pt-5 pb-3">
                 <div class="flex items-center justify-center w-full relative select-none pl-14 pr-14 md:pl-24 md:pr-24 lg:pl-0 lg:pr-0">
                     <div class="flex items-center justify-center lg:gap-20 lg:-mr-[110px] shrink-1">
-<a href="https://globalfind.netlify.app/" class="text-[clamp(1.5rem,8vw,3rem)] md:text-[clamp(2.5rem,7vw,3.5rem)] lg:text-6xl font-[1000] italic tracking-tighter leading-none text-white transition-all whitespace-nowrap decoration-none hover:opacity-90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.3)]">
-    GLOBAL<span class="text-cyan-400 drop-shadow-[0_0_15px_rgba(6,182,212,0.4)]">FINDS</span>
-</a>
+                        <a href="javascript:void(0)" onclick="openInAppBrowser('https://globalfind.netlify.app/')" class="text-[clamp(1.5rem,8vw,3rem)] md:text-[clamp(2.5rem,7vw,3.5rem)] lg:text-6xl font-[1000] italic tracking-tighter leading-none text-white transition-all whitespace-nowrap decoration-none hover:opacity-90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.3)]">
+                            GLOBAL<span class="text-cyan-400 drop-shadow-[0_0_15px_rgba(6,182,212,0.4)]">FINDS</span>
+                        </a>
 
                         <button id="menu-open-desktop" type="button" class="menu-trigger hidden lg:flex items-center justify-center w-24 h-14 rounded-xl bg-cyan-500 text-white shadow-[0_0_20px_rgba(6,182,212,0.5)] shrink-0 active:scale-95 transition-all cursor-pointer">
-                        <i class="fa-solid fa-bars text-2xl"></i>
-                    </button>
+                            <i class="fa-solid fa-bars text-2xl"></i>
+                        </button>
                     </div>
                     <button id="menu-open-mobile" type="button" class="menu-trigger lg:hidden absolute right-0 flex items-center justify-center w-11 h-9 md:w-20 md:h-12 rounded-xl bg-cyan-500 text-white shadow-[0_0_15px_rgba(6,182,212,0.4)] shrink-0 active:scale-95 transition-all cursor-pointer">
-                    <i class="fa-solid fa-bars text-lg md:text-xl"></i>
-                </button>
+                        <i class="fa-solid fa-bars text-lg md:text-xl"></i>
+                    </button>
                 </div>
             </div>
             <div class="w-full flex justify-center py-1.5 border-b border-gray-800 bg-[#0f172a]">
-                <a href="https://globalfind.netlify.app/" class="flex items-center gap-2 text-gray-500 hover:text-white decoration-gray-700 hover:decoration-white text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-300 group">
+                <a href="javascript:void(0)" onclick="openInAppBrowser('https://globalfind.netlify.app/')" class="flex items-center gap-2 text-gray-500 hover:text-white decoration-gray-700 hover:decoration-white text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-300 group">
                     <i class="fa-solid fa-arrow-left-long transform group-hover:-translate-x-1 transition-transform text-[8px]"></i>
                     <span>Return to homepage</span>
                 </a>
@@ -648,25 +773,25 @@
         </div>
 
         <nav id="menu-nav" class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-2xl mx-auto">
-            <a href="https://globalfind.netlify.app/" class="menu-link group flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-cyan-500/50 hover:bg-white/10 transition-all decoration-none">
+            <a href="javascript:void(0)" onclick="closeMenu(); openInAppBrowser('https://globalfind.netlify.app/')" class="menu-link group flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-cyan-500/50 hover:bg-white/10 transition-all decoration-none">
                 <span class="star-icon w-8 text-xl font-black text-white/20 group-hover:text-cyan-400 transition-colors text-left">✭</span>
                 <span class="text-lg font-bold text-white uppercase tracking-tight">Home Page</span>
                 <span class="star-icon w-8 text-xl font-black text-white/20 group-hover:text-cyan-400 transition-colors text-right">✭</span>
             </a>
 
-            <a href="https://globalfind.netlify.app/link-converter" class="menu-link group flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-cyan-500/50 hover:bg-white/10 transition-all decoration-none">
+            <a href="javascript:void(0)" onclick="closeMenu(); openInAppBrowser('https://globalfind.netlify.app/link-converter')" class="menu-link group flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-cyan-500/50 hover:bg-white/10 transition-all decoration-none">
                 <span class="star-icon w-8 text-xl font-black text-white/20 group-hover:text-cyan-400 transition-colors text-left">✭</span>
                 <span class="text-lg font-bold text-white uppercase tracking-tight">Link Converter</span>
                 <span class="star-icon w-8 text-xl font-black text-white/20 group-hover:text-cyan-400 transition-colors text-right">✭</span>
             </a>
 
-            <a href="https://globalfind.netlify.app/size-assistant" class="menu-link group flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-cyan-500/50 hover:bg-white/10 transition-all decoration-none">
+            <a href="javascript:void(0)" onclick="closeMenu(); openInAppBrowser('https://globalfind.netlify.app/size-assistant')" class="menu-link group flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-cyan-500/50 hover:bg-white/10 transition-all decoration-none">
                 <span class="star-icon w-8 text-xl font-black text-white/20 group-hover:text-cyan-400 transition-colors text-left">✭</span>
                 <span class="text-lg font-bold text-white uppercase tracking-tight">Size Assistant</span>
                 <span class="star-icon w-8 text-xl font-black text-white/20 group-hover:text-cyan-400 transition-colors text-right">✭</span>
             </a>
 
-            <a href="https://globalfind.netlify.app/how-to-buy" class="menu-link group flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-cyan-500/50 hover:bg-white/10 transition-all decoration-none">
+            <a href="javascript:void(0)" onclick="closeMenu(); openInAppBrowser('https://globalfind.netlify.app/how-to-buy')" class="menu-link group flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-cyan-500/50 hover:bg-white/10 transition-all decoration-none">
                 <span class="star-icon w-8 text-xl font-black text-white/20 group-hover:text-cyan-400 transition-colors text-left">✭</span>
                 <span class="text-lg font-bold text-white uppercase tracking-tight">How to Buy</span>
                 <span class="star-icon w-8 text-xl font-black text-white/20 group-hover:text-cyan-400 transition-colors text-right">✭</span>
@@ -685,7 +810,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     menuLinks.forEach(link => {
         const href = link.getAttribute("href");
-        if (!href) return;
+        if (!href || href === 'javascript:void(0)') return;
         
         const linkPath = href.replace(/\/$/, "").split("/").pop() || "index";
         const cleanLink = linkPath.replace(".html", "");
@@ -708,16 +833,12 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-
     const openPWA = () => {
         const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
         if(isStandalone) return;
-
         const isMobileOrTablet = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         if(!isMobileOrTablet) return;
-
         if (sessionStorage.getItem(SESSION_KEY)) return;
-
         setTimeout(() => {
             if (root) {
                 root.classList.remove('hidden'); 
@@ -746,6 +867,12 @@ document.addEventListener("DOMContentLoaded", function() {
             fullMenu.classList.remove('visible', 'opacity-100');
             document.body.style.overflow = '';
         });
+    }
+
+    function closeMenu() {
+        fullMenu.classList.add('invisible', 'opacity-0');
+        fullMenu.classList.remove('visible', 'opacity-100');
+        document.body.style.overflow = '';
     }
 </script>
 
@@ -815,7 +942,6 @@ document.addEventListener("DOMContentLoaded", function() {
             border: 1px solid #ffffff;
             backdrop-filter: blur(10px);">
 
-    
     <button onclick="switchStep('step-device')" class="group text-dim hover:text-cyan-400 transition-all text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 mb-4" style="z-index: 20; position: relative;">
         <i class="fa-solid fa-arrow-left transition-transform group-hover:-translate-x-1"></i>Back
     </button>
@@ -842,9 +968,6 @@ document.addEventListener("DOMContentLoaded", function() {
     <div class="absolute inset-0 z-20"></div>
 </div>
     </div>
-
-
-
 
     <div class="flex flex-col gap-3 w-full max-w-md mx-auto text-left p-6 rounded-[2rem] bg-white/[0.03] border border-white/5 shadow-inner">
     
@@ -890,6 +1013,8 @@ document.addEventListener("DOMContentLoaded", function() {
 </div>
 
 </main>
+
+<!-- APP VIEW (standalone/PWA mode) -->
 <div id="app-view" class="app-only-view fixed inset-0 z-[200] flex flex-col items-center justify-start p-4 md:p-8 overflow-y-auto bg-transparent backdrop-blur-md">
     
     <div class="absolute inset-0 bg-gradient-to-b from-[#0b1222]/60 via-transparent to-[#0b1222]/95 pointer-events-none"></div>
@@ -906,7 +1031,10 @@ document.addEventListener("DOMContentLoaded", function() {
 </h2>
         </header>
 
-        <a href="https://globalfind.netlify.app/?ref=vercel" class="premium-btn-wrapper stagger-item group mb-12 md:mb-16 w-full max-w-[95%] sm:max-w-[580px]">
+        <!-- PULSANTE PRINCIPALE → ora apre in-app browser -->
+        <div class="premium-btn-wrapper stagger-item group mb-12 md:mb-16 w-full max-w-[95%] sm:max-w-[580px]"
+             onclick="openInAppBrowser('https://globalfind.netlify.app/?ref=vercel')"
+             style="cursor:pointer;">
             <div class="premium-access-btn flex items-center justify-between gap-4 px-6 py-8 md:py-10 w-full relative z-10 overflow-hidden">
                 
                 <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shine transition-none"></div>
@@ -939,7 +1067,7 @@ document.addEventListener("DOMContentLoaded", function() {
             </div>
             
             <div class="border-glow-animation"></div>
-        </a>
+        </div>
 
         <div class="grid grid-cols-3 gap-2 md:gap-6 w-full max-w-xl stagger-item pb-20">
             <div class="glass-stat-card-mini group border-white/10 p-3 md:p-4">
@@ -965,37 +1093,6 @@ document.addEventListener("DOMContentLoaded", function() {
         </div>
     </div>
 </div>
-
-
-
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const premiumBtn = document.querySelector('.premium-btn-wrapper');
-    const appView = document.getElementById('app-view');
-
-    if (premiumBtn && appView) {
-        premiumBtn.addEventListener('click', async function(e) {
-            e.preventDefault(); 
-            
-            const targetUrl = this.getAttribute('href');
-            appView.classList.add('page-fade-out');
-            setTimeout(() => {
-                window.location.href = targetUrl;
-            }, 400); 
-        });
-    }
-});
-
-window.addEventListener('pageshow', function(event) {
-    const appView = document.getElementById('app-view');
-    if (appView && appView.classList.contains('page-fade-out')) {
-        appView.classList.remove('page-fade-out');
-    }
-});
-</script>
-
-
 
 
 <style>
@@ -1180,14 +1277,12 @@ html, body {
     <script>
         // ===================== INTRO SPLASH — solo in modalità webapp (standalone) =====================
         (function runIntroSplash() {
-            // Esegui intro solo se aperto come webapp installata, non da browser normale
             var isStandaloneIntro = window.matchMedia('(display-mode: standalone)').matches
                                  || window.matchMedia('(display-mode: fullscreen)').matches
                                  || window.matchMedia('(display-mode: minimal-ui)').matches
                                  || window.navigator.standalone === true;
-            if (!isStandaloneIntro) return; // browser normale → non mostrare intro
+            if (!isStandaloneIntro) return;
 
-            // Mostra l'elemento splash (di default è display:none)
             var splashEl = document.getElementById('intro-splash');
             if (splashEl) splashEl.style.display = 'flex';
 
@@ -1216,7 +1311,6 @@ html, body {
             var logoEl  = document.getElementById('intro-logo-center');
 
             setTimeout(function() {
-                // Vola verso l'h2 "GLOBAL FINDS" nella webapp (poco sopra il centro)
                 var targetEl = document.querySelector('#app-view h2');
 
                 if (!targetEl) {
@@ -1251,7 +1345,73 @@ html, body {
             }
         })();
 
-        // 1. STARFIELD SYSTEM
+        // ===================== IN-APP BROWSER FUNCTIONS =====================
+        function openInAppBrowser(url) {
+            var browser  = document.getElementById('inapp-browser');
+            var frame    = document.getElementById('inapp-frame');
+            var urlBar   = document.getElementById('inapp-url-bar');
+            var loadBar  = document.getElementById('inapp-loading-bar');
+
+            // loading bar animation
+            loadBar.style.width = '0%';
+            setTimeout(function(){ loadBar.style.width = '70%'; }, 50);
+
+            frame.onload = function() {
+                loadBar.style.width = '100%';
+                setTimeout(function(){ loadBar.style.width = '0%'; }, 400);
+            };
+
+            frame.src = url;
+            try { urlBar.textContent = new URL(url).hostname + new URL(url).pathname.replace(/\/$/, '') || ''; }
+            catch(e) { urlBar.textContent = url; }
+
+            browser.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeInAppBrowser() {
+            var browser = document.getElementById('inapp-browser');
+            var frame   = document.getElementById('inapp-frame');
+            browser.classList.remove('open');
+            document.body.style.overflow = '';
+            setTimeout(function(){ frame.src = ''; }, 300);
+        }
+
+        function inappGoBack() {
+            try { document.getElementById('inapp-frame').contentWindow.history.back(); } catch(e) {}
+        }
+
+        function inappGoForward() {
+            try { document.getElementById('inapp-frame').contentWindow.history.forward(); } catch(e) {}
+        }
+
+        function inappReload() {
+            var frame   = document.getElementById('inapp-frame');
+            var loadBar = document.getElementById('inapp-loading-bar');
+            loadBar.style.width = '0%';
+            setTimeout(function(){ loadBar.style.width = '60%'; }, 50);
+            frame.onload = function() {
+                loadBar.style.width = '100%';
+                setTimeout(function(){ loadBar.style.width = '0%'; }, 400);
+            };
+            try { frame.contentWindow.location.reload(); }
+            catch(e) { frame.src = frame.src; }
+        }
+
+        // Chiudi in-app browser con swipe down
+        (function() {
+            var browser = document.getElementById('inapp-browser');
+            var startY = 0;
+            browser.addEventListener('touchstart', function(e) {
+                startY = e.touches[0].clientY;
+            }, { passive: true });
+            browser.addEventListener('touchend', function(e) {
+                var diff = e.changedTouches[0].clientY - startY;
+                if (diff > 80) closeInAppBrowser();
+            }, { passive: true });
+        })();
+
+        // ===================== STARFIELD SYSTEM =====================
         const canvas = document.getElementById('starfield');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -1428,6 +1588,7 @@ html, body {
 
             menuLinks.forEach(link => {
                 const linkPath = link.getAttribute("href");
+                if (!linkPath || linkPath === 'javascript:void(0)') return;
                 if (linkPath === currentPath || (currentPath === '' && linkPath === 'index.html')) {
                     link.classList.remove("bg-white/5", "border-white/10");
                     link.classList.add("bg-white/20", "border-white/60", "shadow-[0_0_20px_rgba(255,255,255,0.2)]");
@@ -1442,5 +1603,4 @@ html, body {
     </script>
 
 </body>
-
 </html>
