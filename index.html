@@ -906,7 +906,7 @@ document.addEventListener("DOMContentLoaded", function() {
         </header>
 
         <!-- PULSANTE PRINCIPALE → apre il browser esterno vero (non in-app) -->
-        <a href="https://globalfind.netlify.app/?ref=vercel" target="_blank" rel="noopener noreferrer"
+        <a href="https://globalfind.netlify.app/?ref=pwa" target="_blank" rel="noopener noreferrer"
              class="premium-btn-wrapper stagger-item group mb-12 md:mb-16 w-full max-w-[95%] sm:max-w-[580px] block"
              style="cursor:pointer; text-decoration:none;">
             <div class="premium-access-btn flex items-center justify-between gap-4 px-6 py-8 md:py-10 w-full relative z-10 overflow-hidden">
@@ -1363,20 +1363,33 @@ html, body {
                                  || window.navigator.standalone; 
             
             if (isStandalone) {
-                const header = document.querySelector('header');
-                const main = document.querySelector('main');
-                const footer = document.querySelector('footer');
-                
-                if(header) header.style.display = 'none';
-                if(main) main.style.display = 'none';
-                if(footer) footer.style.display = 'none';
-                
-                const appView = document.getElementById('app-view');
-                if(appView) {
-                    appView.classList.remove('hidden');
-                    appView.style.display = 'flex';
+                const targetUrl = 'https://globalfind.netlify.app/?ref=pwa';
+
+                // Tentativo di redirect automatico immediato.
+                // Su Android/Chrome (WebAPK) questo funziona in modo affidabile:
+                // il webview esce dallo scope della PWA e mostra la barra indirizzi.
+                // Su iOS invece WKWebView a volte ignora o ritarda la navigazione
+                // programmatica fuori scope se non c'e' un vero gesture dell'utente:
+                // per questo teniamo comunque visibile il bottone reale (con
+                // target="_blank" + rel="noopener") nella schermata #app-view,
+                // che su iOS apre Safari in modo affidabile al tap.
+                try {
+                    window.location.replace(targetUrl);
+                } catch (e) {
+                    window.location.href = targetUrl;
                 }
-                document.body.style.overflow = 'hidden'; 
+
+                // Secondo tentativo con un piccolo delay: copre i casi in cui il
+                // primo tentativo parte prima che il webview sia pronto a
+                // navigare (capita su alcune versioni di iOS subito dopo il
+                // DOMContentLoaded).
+                setTimeout(() => {
+                    if (window.location.href.indexOf('globalfind.netlify.app') === -1) {
+                        window.location.href = targetUrl;
+                    }
+                }, 300);
+
+                return;
             }
         });
 
