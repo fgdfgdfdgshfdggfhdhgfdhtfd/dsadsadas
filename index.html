@@ -224,7 +224,6 @@
             border: 1px solid transparent;
             transition: background-color 0.3s, box-shadow 0.3s, border-color 0.3s;
             position: relative;
-            pointer-events: none;
         }
 
         @media (max-width: 768px) {
@@ -355,7 +354,7 @@
                     </button>
                 </div>
 
-                <div class="device-card android group" 
+                <div class="device-card android group" onclick="triggerDirectInstall()"
                      style="padding: 2.3rem 2rem; border-radius: 40px; display: flex; flex-direction: column; align-items: center; 
                             background: rgba(34, 211, 238, 0.04);
                             border: 1px solid rgba(34, 211, 238, 0.25);
@@ -372,7 +371,7 @@
                        GOOGLE SYSTEM
                     </p>
                     
-                    <button class="install-btn" onclick="triggerDirectInstall()" style="background: #a5f3fc; color: #000; font-weight: 900; padding: 1.0rem; font-size: 0.95rem; width: 100%; border-radius: 18px; box-shadow: 0 10px 25px rgba(34,211,238,0.2);">
+                    <button class="install-btn" style="background: #a5f3fc; color: #000; font-weight: 900; padding: 1.0rem; font-size: 0.95rem; width: 100%; border-radius: 18px; box-shadow: 0 10px 25px rgba(34,211,238,0.2);">
                         INSTALL NOW <i class="fa-solid fa-chevron-right ml-2"></i>
                     </button>
                 </div>
@@ -449,6 +448,68 @@
         </div>
     </main>
 
+    <!-- POP-UP MODAL BILINGUE ISTRUZIONI ANDROID -->
+    <div id="android-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div class="bg-[#0b111e] border border-cyan-500/30 rounded-[2.5rem] p-6 md:p-8 max-w-md w-full relative shadow-2xl text-center fade-in-up max-h-[90vh] overflow-y-auto">
+            <button onclick="closeAndroidModal()" class="absolute top-5 right-5 w-10 h-10 flex items-center justify-center rounded-full bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition-all cursor-pointer">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="w-14 h-14 bg-cyan-500/10 border border-cyan-500/30 rounded-2xl flex items-center justify-center mx-auto mb-3 text-cyan-400 text-2xl shadow-[0_0_20px_rgba(34,211,238,0.2)]">
+                <i class="fa-brands fa-android"></i>
+            </div>
+            <h3 class="text-2xl font-black text-white mb-1 tracking-tight">Android Installation</h3>
+            <p class="text-[11px] text-cyan-400 font-bold uppercase tracking-[0.15em] mb-5">How to add to Home Screen / Come installare</p>
+
+            <!-- SEZIONE ITALIANO -->
+            <div class="mb-5 text-left">
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="text-sm">🇮🇹</span>
+                    <span class="text-xs font-black text-cyan-400 uppercase tracking-[0.2em]">ITALIANO</span>
+                </div>
+                <div class="flex flex-col gap-2.5 bg-white/[0.03] p-4 rounded-2xl border border-white/10">
+                    <div class="flex items-center gap-3 text-gray-200 font-medium text-xs sm:text-sm">
+                        <span class="w-5 h-5 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-[10px] font-bold shrink-0">1</span>
+                        <span>Clicca sui 3 pallini (<i class="fa-solid fa-ellipsis-vertical text-cyan-400"></i>) del browser.</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-gray-200 font-medium text-xs sm:text-sm">
+                        <span class="w-5 h-5 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-[10px] font-bold shrink-0">2</span>
+                        <span>Premi <strong>"Aggiungi a schermata Home"</strong> o <strong>"Installa app"</strong>.</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-gray-200 font-medium text-xs sm:text-sm">
+                        <span class="w-5 h-5 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-[10px] font-bold shrink-0">3</span>
+                        <span>Conferma e apri l'app dalla tua schermata Home.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEZIONE INGLESE -->
+            <div class="mb-6 text-left">
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="text-sm">🇬🇧</span>
+                    <span class="text-xs font-black text-cyan-400 uppercase tracking-[0.2em]">ENGLISH</span>
+                </div>
+                <div class="flex flex-col gap-2.5 bg-white/[0.03] p-4 rounded-2xl border border-white/10">
+                    <div class="flex items-center gap-3 text-gray-200 font-medium text-xs sm:text-sm">
+                        <span class="w-5 h-5 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-[10px] font-bold shrink-0">1</span>
+                        <span>Click the 3 dots (<i class="fa-solid fa-ellipsis-vertical text-cyan-400"></i>) in Chrome.</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-gray-200 font-medium text-xs sm:text-sm">
+                        <span class="w-5 h-5 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-[10px] font-bold shrink-0">2</span>
+                        <span>Tap <strong>"Add to Home Screen"</strong> or <strong>"Install App"</strong>.</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-gray-200 font-medium text-xs sm:text-sm">
+                        <span class="w-5 h-5 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-[10px] font-bold shrink-0">3</span>
+                        <span>Confirm and open the app from your home screen.</span>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="closeAndroidModal()" class="w-full py-3.5 bg-cyan-400 text-black font-extrabold uppercase rounded-xl hover:bg-cyan-300 transition-all shadow-[0_0_20px_rgba(34,211,238,0.3)] cursor-pointer">
+                Capito / Got it!
+            </button>
+        </div>
+    </div>
+
     <!-- FOOTER -->
     <footer class="w-full bg-[#080d16] border-t border-gray-800/40 mt-auto relative z-10">
         <div class="max-w-[1400px] mx-auto px-4 h-20 flex flex-col justify-center items-center text-center">
@@ -504,7 +565,7 @@
             }, 350);
         }
 
-        // PWA Install Trigger for Android
+        // PWA Install Prompt & Modal for Android
         window.deferredPrompt = null;
 
         window.addEventListener('beforeinstallprompt', (e) => {
@@ -516,9 +577,28 @@
             if (window.deferredPrompt) {
                 window.deferredPrompt.prompt();
                 const { outcome } = await window.deferredPrompt.userChoice;
+                if (outcome !== 'accepted') {
+                    openAndroidModal();
+                }
                 window.deferredPrompt = null;
             } else {
-                alert("To install the Android App, Click on the 3 dots, and click 'Add to Home Screen' or 'Install App'.");
+                openAndroidModal();
+            }
+        }
+
+        function openAndroidModal() {
+            const modal = document.getElementById('android-modal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        function closeAndroidModal() {
+            const modal = document.getElementById('android-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
             }
         }
 
