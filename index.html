@@ -783,7 +783,7 @@ document.addEventListener("DOMContentLoaded", function() {
             </button>
         </div>
 
-        <div class="device-card android group" onclick="triggerDirectInstall(this.querySelector('.install-btn'))" onmouseenter="setEdgeLight(this)" onmouseleave="unsetEdgeLight(this)" 
+        <div class="device-card android group" onmouseenter="setEdgeLight(this)" onmouseleave="unsetEdgeLight(this)" 
              style="padding: 2.3rem 2rem; border-radius: 40px; display: flex; flex-direction: column; align-items: center; 
                     background: linear-gradient(145deg, rgba(34, 211, 238, 0.1) 0%, rgba(34, 211, 238, 0.02) 100%);
                     border: 1px solid rgba(34, 211, 238, 0.3);
@@ -801,7 +801,7 @@ document.addEventListener("DOMContentLoaded", function() {
                GOOGLE SYSTEM
             </p>
             
-            <button class="install-btn" style="background: #a5f3fc; color: #000; font-weight: 900; padding: 1.0rem; font-size: 0.95rem; width: 100%; border-radius: 18px; box-shadow: 0 10px 25px rgba(34,211,238,0.2);">
+            <button class="install-btn" onclick="triggerDirectInstall()" style="background: #a5f3fc; color: #000; font-weight: 900; padding: 1.0rem; font-size: 0.95rem; width: 100%; border-radius: 18px; box-shadow: 0 10px 25px rgba(34,211,238,0.2);">
                 INSTALL NOW <i class="fa-solid fa-chevron-right ml-2"></i>
             </button>
         </div>
@@ -1221,16 +1221,27 @@ html, body {
 
         // ===================== IN-APP BROWSER FUNCTIONS =====================
         function openInAppBrowser(url) {
-            // Apre come popup fullscreen — su mobile nasconde quasi tutto il browser UI
-            // e salva correttamente sessioni/cookie
-            var w = screen.width;
-            var h = screen.height;
-            var features = 'width=' + w + ',height=' + h + ',top=0,left=0,toolbar=no,menubar=no,scrollbars=yes,resizable=yes,location=no,status=no,titlebar=no';
-            var win = window.open(url, '_blank', features);
-            // fallback se il browser blocca il popup
-            if (!win || win.closed || typeof win.closed === 'undefined') {
-                window.open(url, '_blank');
-            }
+            // PRIMA: apriva un popup fullscreen con window.open(url,'_blank',features).
+            // Il popup crea un contesto di navigazione SEPARATO, che su mobile e
+            // soprattutto da dentro una PWA installata spesso non condivide
+            // sessione/cookie con il browser reale — da qui il problema del login
+            // che non veniva ricordato.
+            //
+            // ORA: navigazione reale nella STESSA finestra (window.location.href),
+            // non un popup. Dato che globalfind.netlify.app è un dominio diverso
+            // da quello di questa webapp (fuori dallo "scope" della PWA installata),
+            // una navigazione vera verso un dominio esterno fa sì che Android/Chrome
+            // passi automaticamente al browser reale — comportamento standard per
+            // i link fuori scope da un'app installata — portando con sé una sessione
+            // normale, con cookie persistenti come in un tab qualunque.
+            //
+            // Il breve fade è solo estetico, per rendere il passaggio fluido invece
+            // che un salto brusco/bianco.
+            document.body.style.transition = 'opacity 0.25s ease';
+            document.body.style.opacity = '0';
+            setTimeout(function() {
+                window.location.href = url;
+            }, 220);
         }
 
         function closeInAppBrowser() {
@@ -1348,13 +1359,26 @@ html, body {
             window.deferredPrompt = e;
         });
 
-        async function triggerDirectInstall(btn) {
+        async function triggerDirectInstall() {
+            // Questo e' l'UNICO modo in cui un sito puo' far comparire il popup
+            // nativo del browser ("Vuoi installare l'app?"): e' Chrome stesso a
+            // decidere se e quando concedere l'evento "beforeinstallprompt" (solo
+            // se il sito soddisfa i criteri di installabilita': manifest valido,
+            // HTTPS, service worker registrato, non gia' installato). Nessuno
+            // script puo' forzare la comparsa del prompt dal nulla — puo' solo
+            // richiamare quello che il browser ha gia' concesso e che qui teniamo
+            // pronto in window.deferredPrompt.
             if (window.deferredPrompt) {
                 window.deferredPrompt.prompt();
                 const { outcome } = await window.deferredPrompt.userChoice;
                 console.log(`Scelta di installazione utente: ${outcome}`);
                 window.deferredPrompt = null;
             } else {
+                // Il browser non ha (ancora) concesso il prompt nativo — capita se
+                // l'app e' gia' installata, se i criteri di installabilita' non
+                // sono ancora soddisfatti al momento del click, o su browser che
+                // non supportano questa API (es. Firefox Android, alcuni browser
+                // basati su Chromium con la feature disattivata).
                 alert("To install the Android App, Click on the 3 dots, and click 'Add to Home Screen' or 'Install App'.");
             }
         }
