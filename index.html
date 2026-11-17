@@ -424,10 +424,9 @@
         </style>
     
     <style id="gf-portal-css">
-        /* Senza barra promo e senza top bar: header attaccato in alto, spazio sotto ridotto */
-        #desktop-header, #mobile-header { top: var(--gf-sat, 0px) !important; }
-        body { padding-top: calc(84px + var(--gf-sat, 0px)); }
-        @media (min-width: 1024px) { body { padding-top: calc(104px + var(--gf-sat, 0px)); } }
+        /* Spazio sotto l'header (con barra promo + top bar) un po' ridotto */
+        body { padding-top: calc(100px + var(--gf-sat, 0px)); }
+        @media (min-width: 1024px) { body { padding-top: calc(152px + var(--gf-sat, 0px)); padding-bottom: 12px; } }
 
         /* Pulsante ritorno alla home */
         .gf-home-btn {
@@ -497,7 +496,32 @@
 <!-- ============================================================
      FIXED HEADER — DESKTOP (lg+)
 ============================================================ -->
-<div class="fixed top-0 left-0 w-full z-40 shadow-2xl flex-col hidden lg:flex" id="desktop-header">
+<div id="promo-marquee" class="fixed top-0 left-0 w-full z-50" aria-hidden="true">
+    <div class="promo-marquee-track">
+        <span class="promo-marquee-item">| CODE "GLOBAL30" ON SHIPPING FOR FREE COUPONS |</span>
+        <span class="promo-marquee-item">| CODE "GLOBAL30" ON SHIPPING FOR FREE COUPONS |</span>
+        <span class="promo-marquee-item">| CODE "GLOBAL30" ON SHIPPING FOR FREE COUPONS |</span>
+        <span class="promo-marquee-item">| CODE "GLOBAL30" ON SHIPPING FOR FREE COUPONS |</span>
+        <span class="promo-marquee-item">| CODE "GLOBAL30" ON SHIPPING FOR FREE COUPONS |</span>
+        <span class="promo-marquee-item">| CODE "GLOBAL30" ON SHIPPING FOR FREE COUPONS |</span>
+        <span class="promo-marquee-item">| CODE "GLOBAL30" ON SHIPPING FOR FREE COUPONS |</span>
+        <span class="promo-marquee-item">| CODE "GLOBAL30" ON SHIPPING FOR FREE COUPONS |</span>
+    </div>
+</div>
+<div class="fixed top-[28px] left-0 w-full z-40 shadow-2xl flex-col hidden lg:flex" id="desktop-header">
+
+    <!-- TOP BAR -->
+    <div class="top-bar py-1.5 px-4 md:px-8 bg-[#0b1222] w-full">
+        <div class="max-w-[1400px] mx-auto flex justify-center items-center">
+            <div class="flex items-center gap-4 text-center">
+                <span class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Can't find what you want? ASK HERE ➥</span>
+                <a href="https://t.me/matteee21" class="telegram-ultra-btn">
+                    <i class="fa-brands fa-telegram"></i>
+                    <span>TELEGRAM</span>
+                </a>
+            </div>
+        </div>
+    </div>
 
     <!-- MAIN HEADER -->
     <header class="bg-[#0f172a] border-b border-gray-800 -mt-px relative z-40">
@@ -534,7 +558,7 @@
 <!-- ============================================================
      FIXED HEADER — MOBILE / TABLET (< lg)
 ============================================================ -->
-<div class="fixed top-0 left-0 w-full z-40 shadow-2xl flex flex-col lg:hidden" id="mobile-header">
+<div class="fixed top-[28px] left-0 w-full z-40 shadow-2xl flex flex-col lg:hidden" id="mobile-header">
     <header class="bg-[#0f172a] border-b border-gray-800">
         <div class="max-w-[1400px] mx-auto px-4 py-2">
             <!-- Griglia a tre colonne per garantire il perfetto centraggio del logo -->
@@ -659,13 +683,13 @@
 <!-- ============================================================
      MAIN CONTENT — PORTALE DOWNLOAD
 ============================================================ -->
-<main class="fade-in-up w-full max-w-[1100px] mx-auto px-4 md:px-12 mt-6 md:mt-10 flex-1 flex flex-col items-center pb-12">
+<main class="fade-in-up w-full max-w-[1100px] mx-auto px-4 md:px-12 mt-2 md:mt-3 flex-1 flex flex-col items-center pb-4">
 
     <a href="https://globalfind.netlify.app/" class="gf-home-btn" aria-label="Back to Home">
         <i class="fa-solid fa-arrow-left"></i><span>Back to Home</span>
     </a>
 
-    <h1 class="text-center text-[2.15rem] md:text-[2.8rem] lg:text-5xl font-black leading-[1.05] tracking-tight w-full mt-2 md:mt-6 mb-8 text-white">
+    <h1 class="text-center text-[2.15rem] md:text-[2.8rem] lg:text-5xl font-black leading-[1.05] tracking-tight w-full mt-3 md:mt-2 mb-5 text-white">
         Download the <span class="text-cyan-400 drop-shadow-[0_0_15px_rgba(6,182,212,0.4)]">App</span>
     </h1>
 
@@ -762,9 +786,9 @@
     </div>
 </div>
 
-<footer class="w-full bg-[#0b1222] py-6 mt-20 border-t border-gray-800/40">
+<footer class="w-full bg-[#0b1222] py-3 mt-6 border-t border-gray-800/40">
     <div class="max-w-[900px] mx-auto px-4 text-center">
-        <p class="text-[9px] font-bold text-gray-400 uppercase tracking-[0.15em] opacity-80 mb-2">© 2026 GLOBAL FINDS • ALL RIGHTS RESERVED</p>
+        <p class="text-[9px] font-bold text-gray-400 uppercase tracking-[0.15em] opacity-80 mb-0">© 2026 GLOBAL FINDS • ALL RIGHTS RESERVED</p>
     </div>
 </footer>
 
