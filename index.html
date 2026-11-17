@@ -424,6 +424,29 @@
         </style>
     
     <style id="gf-portal-css">
+        /* Senza barra promo e senza top bar: header attaccato in alto, spazio sotto ridotto */
+        #desktop-header, #mobile-header { top: var(--gf-sat, 0px) !important; }
+        body { padding-top: calc(84px + var(--gf-sat, 0px)); }
+        @media (min-width: 1024px) { body { padding-top: calc(104px + var(--gf-sat, 0px)); } }
+
+        /* Pulsante ritorno alla home */
+        .gf-home-btn {
+            align-self: flex-start; display: inline-flex; align-items: center; gap: 8px;
+            padding: 9px 16px; border-radius: 12px; text-decoration: none;
+            font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
+            color: #e2e8f0; background: rgba(255,255,255,0.04); border: 1.5px solid rgba(148,163,184,0.36);
+            transition: color .2s, border-color .2s, background .2s;
+        }
+        .gf-home-btn i { font-size: 10px; transition: transform .2s; }
+        .gf-home-btn:hover { color: #22d3ee; border-color: #22d3ee; background: rgba(6,182,212,0.1); }
+        .gf-home-btn:hover i { transform: translateX(-3px); }
+
+        /* Menu: "Download The App" con lo stesso colore delle altre voci */
+        .gm-item.is-current .gm-label { color: #cbd5e1; text-shadow: none; }
+        .gm-item.is-current .gm-num { color: rgba(148,163,184,0.55); }
+        .gm-item.is-current:hover .gm-label, .gm-item.is-current:focus-visible .gm-label { color: #fff; text-shadow: 0 0 34px rgba(34,211,238,0.55); }
+        .gm-item.is-current:hover .gm-num, .gm-item.is-current:focus-visible .gm-num { color: #22d3ee; }
+
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .fade-in-up { animation: slideUp 0.7s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
         .device-card {
@@ -474,32 +497,7 @@
 <!-- ============================================================
      FIXED HEADER — DESKTOP (lg+)
 ============================================================ -->
-<div id="promo-marquee" class="fixed top-0 left-0 w-full z-50" aria-hidden="true">
-    <div class="promo-marquee-track">
-        <span class="promo-marquee-item">| CODE "GLOBAL30" ON SHIPPING FOR FREE COUPONS |</span>
-        <span class="promo-marquee-item">| CODE "GLOBAL30" ON SHIPPING FOR FREE COUPONS |</span>
-        <span class="promo-marquee-item">| CODE "GLOBAL30" ON SHIPPING FOR FREE COUPONS |</span>
-        <span class="promo-marquee-item">| CODE "GLOBAL30" ON SHIPPING FOR FREE COUPONS |</span>
-        <span class="promo-marquee-item">| CODE "GLOBAL30" ON SHIPPING FOR FREE COUPONS |</span>
-        <span class="promo-marquee-item">| CODE "GLOBAL30" ON SHIPPING FOR FREE COUPONS |</span>
-        <span class="promo-marquee-item">| CODE "GLOBAL30" ON SHIPPING FOR FREE COUPONS |</span>
-        <span class="promo-marquee-item">| CODE "GLOBAL30" ON SHIPPING FOR FREE COUPONS |</span>
-    </div>
-</div>
-<div class="fixed top-[28px] left-0 w-full z-40 shadow-2xl flex-col hidden lg:flex" id="desktop-header">
-
-    <!-- TOP BAR -->
-    <div class="top-bar py-1.5 px-4 md:px-8 bg-[#0b1222] w-full">
-        <div class="max-w-[1400px] mx-auto flex justify-center items-center">
-            <div class="flex items-center gap-4 text-center">
-                <span class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Can't find what you want? ASK HERE ➥</span>
-                <a href="https://t.me/matteee21" class="telegram-ultra-btn">
-                    <i class="fa-brands fa-telegram"></i>
-                    <span>TELEGRAM</span>
-                </a>
-            </div>
-        </div>
-    </div>
+<div class="fixed top-0 left-0 w-full z-40 shadow-2xl flex-col hidden lg:flex" id="desktop-header">
 
     <!-- MAIN HEADER -->
     <header class="bg-[#0f172a] border-b border-gray-800 -mt-px relative z-40">
@@ -526,9 +524,6 @@
                     </a>
                 </div>
 
-                <!-- RIGHT GROUP: Wishlist + Login + Signup (header-auth.js, come nella home) -->
-                <div id="auth-area-header" class="desktop-header-right flex items-center gap-2 shrink-0"></div>
-
             </div>
 
         </div>
@@ -539,7 +534,7 @@
 <!-- ============================================================
      FIXED HEADER — MOBILE / TABLET (< lg)
 ============================================================ -->
-<div class="fixed top-[28px] left-0 w-full z-40 shadow-2xl flex flex-col lg:hidden" id="mobile-header">
+<div class="fixed top-0 left-0 w-full z-40 shadow-2xl flex flex-col lg:hidden" id="mobile-header">
     <header class="bg-[#0f172a] border-b border-gray-800">
         <div class="max-w-[1400px] mx-auto px-4 py-2">
             <!-- Griglia a tre colonne per garantire il perfetto centraggio del logo -->
@@ -553,9 +548,6 @@
                         </span>
                     </a>
                 </div>
-
-                <!-- RIGHT: Wishlist + Login + Signup (header-auth.js, come nella home) -->
-                <div class="mobile-header-right" id="mobile-header-right-controls"></div>
 
             </div>
         </div>
@@ -669,6 +661,10 @@
 ============================================================ -->
 <main class="fade-in-up w-full max-w-[1100px] mx-auto px-4 md:px-12 mt-6 md:mt-10 flex-1 flex flex-col items-center pb-12">
 
+    <a href="https://globalfind.netlify.app/" class="gf-home-btn" aria-label="Back to Home">
+        <i class="fa-solid fa-arrow-left"></i><span>Back to Home</span>
+    </a>
+
     <h1 class="text-center text-[2.15rem] md:text-[2.8rem] lg:text-5xl font-black leading-[1.05] tracking-tight w-full mt-2 md:mt-6 mb-8 text-white">
         Download the <span class="text-cyan-400 drop-shadow-[0_0_15px_rgba(6,182,212,0.4)]">App</span>
     </h1>
@@ -769,14 +765,6 @@
 <footer class="w-full bg-[#0b1222] py-6 mt-20 border-t border-gray-800/40">
     <div class="max-w-[900px] mx-auto px-4 text-center">
         <p class="text-[9px] font-bold text-gray-400 uppercase tracking-[0.15em] opacity-80 mb-2">© 2026 GLOBAL FINDS • ALL RIGHTS RESERVED</p>
-        <p class="text-[10px] md:text-[11px] text-gray-500 leading-relaxed">
-            <strong class="text-gray-400">Disclaimer:</strong> Global Finds is a platform designed to assist users in browsing Chinese marketplaces such as Taobao, 1688, and others, primarily by providing access to "QC Photos" (Quality Check Photos) gathered from shipping agents. These photos are intended to help users assess the quality of products before purchase. Global Finds does not sell any products directly or indirectly — we are solely an informational platform to help users browse and assess items on third-party marketplaces. Please be aware that Global Finds does not have control over the authenticity, legality, or quality of the products sold on these marketplaces. The responsibility for these aspects lies solely with the sellers and the platforms themselves. We strongly recommend that users conduct thorough research and exercise caution when making purchases. If you purchase counterfeit or inferior goods, Global Finds supports you in contacting the customer service of the purchasing platform to file a complaint. Global Finds is not liable for any counterfeit, misrepresented, or otherwise unsatisfactory items encountered on these marketplaces.
-        </p>
-        <div class="mt-3 flex items-center justify-center gap-3 text-[9px] md:text-[10px] font-bold uppercase tracking-widest">
-            <a href="https://globalfind.netlify.app/privacy-policy.html" class="text-gray-400 hover:text-cyan-400 transition-colors">Privacy Policy</a>
-            <span class="text-gray-600">|</span>
-            <a href="https://globalfind.netlify.app/disclaimer.html" class="text-gray-400 hover:text-cyan-400 transition-colors">Disclaimer</a>
-        </div>
     </div>
 </footer>
 
@@ -1050,6 +1038,5 @@ if ('serviceWorker' in navigator) {
     });
 }
 </script>
-<script src="header-auth.js?v=1" defer></script>
 </body>
 </html>
