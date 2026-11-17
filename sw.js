@@ -1,13 +1,14 @@
-/* VERSIONE: 1.0.3
-   (Aumentata versione per forzare l'aggiornamento con i log)
+/* VERSIONE: 1.1.0
+   (Portale download: shell aggiornata al nuovo design, output.css e icone nuove.
+    Aumentare la versione ad ogni deploy per forzare l'aggiornamento.)
 */
 
-const CACHE_NAME = 'global-finds-v1.0.3';
+const CACHE_NAME = 'global-finds-v1.1.0';
 
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
-    '/manifest.json'
+    '/site.webmanifest.json'
 ];
 
 // 1. INSTALLAZIONE
@@ -18,13 +19,13 @@ self.addEventListener('install', event => {
             return cache.addAll(ASSETS_TO_CACHE);
         })
     );
-    self.skipWaiting(); 
+    self.skipWaiting();
 });
 
 // 2. ATTIVAZIONE E INVIO LOG A VERCEL
 self.addEventListener('activate', event => {
     console.log('[SW] Attivazione e pulizia cache...');
-    
+
     event.waitUntil(
         Promise.all([
             // Pulizia vecchie cache
@@ -42,7 +43,7 @@ self.addEventListener('activate', event => {
                 // Controllo se è aperta come WebApp (Standalone)
                 const isPWA = clients.some(c => c.displayMode === 'standalone');
                 const platform = isPWA ? 'WebApp-Installata' : 'Browser-Sito';
-                
+
                 // Questa chiamata genera il log nella dashboard di Vercel
                 return fetch(`/api/log?type=Accesso&platform=${platform}`).catch(() => {
                     // Ignoriamo l'errore se siamo offline
@@ -56,6 +57,7 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
     if (event.request.url.match(/\.(mp4|webm|ogg|wav|mp3)$/i)) return;
     if (event.request.method !== 'GET') return;
+    if (event.request.url.includes('/api/')) return;   // le chiamate di log non vanno mai in cache
 
     event.respondWith(
         fetch(event.request)
