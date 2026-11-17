@@ -428,17 +428,15 @@
         body { padding-top: calc(100px + var(--gf-sat, 0px)); }
         @media (min-width: 1024px) { body { padding-top: calc(152px + var(--gf-sat, 0px)); padding-bottom: 12px; } }
 
-        /* Pulsante ritorno alla home */
-        .gf-home-btn {
-            align-self: flex-start; display: inline-flex; align-items: center; gap: 8px;
-            padding: 9px 16px; border-radius: 12px; text-decoration: none;
-            font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
-            color: #e2e8f0; background: rgba(255,255,255,0.04); border: 1.5px solid rgba(148,163,184,0.36);
-            transition: color .2s, border-color .2s, background .2s;
+        /* Desktop: box iOS / Android un po' piu' in basso e un po' piu' grandi */
+        @media (min-width: 1024px) {
+            .selector-grid { margin-top: 2.5rem; gap: 3rem; width: 96%; max-width: 1000px; }
+            .selector-grid .device-card { padding: 3.2rem 2.5rem; }
+            .selector-grid .device-card .icon-3d { font-size: 5rem; margin-bottom: 1.4rem; }
+            .selector-grid .device-card h3 { font-size: 2.1rem; }
+            .selector-grid .device-card .device-subtitle { font-size: .85rem; margin-bottom: 2rem; }
+            .selector-grid .device-card .install-btn { padding: 1.25rem; font-size: 1.05rem; }
         }
-        .gf-home-btn i { font-size: 10px; transition: transform .2s; }
-        .gf-home-btn:hover { color: #22d3ee; border-color: #22d3ee; background: rgba(6,182,212,0.1); }
-        .gf-home-btn:hover i { transform: translateX(-3px); }
 
         /* Menu: "Download The App" con lo stesso colore delle altre voci */
         .gm-item.is-current .gm-label { color: #cbd5e1; text-shadow: none; }
@@ -684,10 +682,6 @@
      MAIN CONTENT — PORTALE DOWNLOAD
 ============================================================ -->
 <main class="fade-in-up w-full max-w-[1100px] mx-auto px-4 md:px-12 mt-2 md:mt-3 flex-1 flex flex-col items-center pb-4">
-
-    <a href="https://globalfind.netlify.app/" class="gf-home-btn" aria-label="Back to Home">
-        <i class="fa-solid fa-arrow-left"></i><span>Back to Home</span>
-    </a>
 
     <h1 class="text-center text-[2.15rem] md:text-[2.8rem] lg:text-5xl font-black leading-[1.05] tracking-tight w-full mt-3 md:mt-2 mb-5 text-white">
         Download the <span class="text-cyan-400 drop-shadow-[0_0_15px_rgba(6,182,212,0.4)]">App</span>
