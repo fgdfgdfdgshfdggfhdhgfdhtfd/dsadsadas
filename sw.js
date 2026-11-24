@@ -1,9 +1,9 @@
-/* VERSIONE: 1.3.0
-   (Portale download: icone v2 (icon-v3-*), og-image-v2 e manifest aggiornati.
+/* VERSIONE: 1.1.0
+   (Portale download: shell aggiornata al nuovo design, output.css e icone nuove.
     Aumentare la versione ad ogni deploy per forzare l'aggiornamento.)
 */
 
-const CACHE_NAME = 'global-finds-v1.3.0';
+const CACHE_NAME = 'global-finds-v1.1.0';
 
 const ASSETS_TO_CACHE = [
     '/',
