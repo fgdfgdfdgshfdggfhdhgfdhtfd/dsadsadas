@@ -5,7 +5,7 @@
     { "source": "/manifest.json", "destination": "/site.webmanifest.json" }
   ],
   "headers": [
-    { "source": "/icon-v2.png",   "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },
+    { "source": "/icon-v3.png",   "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },
     { "source": "/icon-(.*)",  "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },
     { "source": "/og-image-v2.png", "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }] },
     { "source": "/output.css", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },
